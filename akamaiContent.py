@@ -7,7 +7,7 @@ akamai_config = {
 	'fireflyThreshold': 20,
 	'fireflyThresholdRegistered': 30,
 	'anonymousURLProccessor': 'http://accountsolution-dev2.indystar.com/akamai/cookie/',
-	'meterLimitURL': 'http://safe-dusk-4529.herokuapp.com/akamai/get-access'
+	'meterLimitURL': 'http://mosi-service.herokuapp.com/akamai/get-access'
 }
 
 
