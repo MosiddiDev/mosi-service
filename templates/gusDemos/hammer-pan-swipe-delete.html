@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <style>
+            html {
+                font-family: monospace;
+            }
+            .container {
+                border: 1px solid green;
+                width: 300px;
+                margin: 0 auto;
+                position: relative;
+            }
+            #title {
+                font-size: 18px;
+                text-align: center;
+            }
+            .choice {
+                position: absolute;
+            }
+        </style>
+
+        <title>Hammer with pan swipe delete action </title>
+        <script type='text/javascript' src="http://code.jquery.com/jquery-2.1.1.min.js" ></script>
+        <script type='text/javascript' src='http://hammerjs.github.io/dist/hammer.js' ></script>
+        <script type='text/javascript' >
+            /* get rid of jquery all together and add a listener for load on window? then fire an init function ? */
+            $( document ).ready(function() {
+
+                var swipeOptions = {
+                    velocity: 0.1,
+                    threshold: 50
+                    // direction is default horizontal
+                }
+
+                function addTheTouch(touchElement){
+                    // panning accounts for moving the element with where the user is touching
+                    var touchControl = new Hammer(touchElement);
+                    touchControl.on('panright panleft', function(event) {
+                        touchElement.style.left = event.deltaX + 'px'; // try webkit css transform instead ?
+                        // should set limits in which after going past those it will auto fire as a vote
+                    });
+
+                    touchControl.get('swipe').set(swipeOptions);
+                    touchControl.on('swipe', function(event) {
+                        touchControl.off("swipe");  // don't need that listener anymore
+                        youAreLosingTouch(event);
+                    });
+                }
+
+                 function putBackElement(event) {
+                    // go home element you're drunk!
+                    var resetElement = event.target;
+                    resetElement.style.left = '0px';
+                }
+
+                function youAreLosingTouch(event) {
+                    //delete the element
+                    var theElement =  event.target;
+                    theElement.style.display = 'none';  // in case it doesn't get removed next
+                    theElement.remove();
+                    
+                }
+
+                var choices = document.querySelectorAll('.choice');
+                for(var i=0; i< choices.length; i++) {
+                    addTheTouch(choices[i]);
+                    // Need something better than jquery's on touchend event 
+                    $(choices[i]).on('touchend', function(event){
+                        putBackElement(event);
+                    });
+                }
+
+            });
+        </script>
+
+
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    </head>
+
+    <body>
+        <h1 id="title">Hammer swipe/drag with visual Test</h1>
+        <div class='container'>
+            {% for x in range(0,2) %}
+                <img src="http://placehold.it/300x300" class='choice' />
+                <img src="http://www.placecage.com/c/300/300" class='choice' />
+                <img src="http://placehold.it/300x300" class='choice' />
+                <img src="http://www.nicenicejpg.com/300" class='choice' />
+            {% endfor %}
+        </div>
+    </body>
+</html>

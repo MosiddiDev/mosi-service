@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <style>
+            html {
+                font-family: monospace;
+            }
+            .container {
+                border: 1px solid green;
+                width: 300px;
+                margin: 0 auto;
+                position: relative;
+            }
+            #title {
+                font-size: 18px;
+                text-align: center;
+            }
+            .choice {
+                position: absolute;
+            }
+        </style>
+
+        <title>Hammer simple swipe and removal</title>
+        <script type='text/javascript' src="http://code.jquery.com/jquery-2.1.1.min.js" ></script>
+        <script type='text/javascript' src='http://hammerjs.github.io/dist/hammer.min.js' ></script>
+        <script type='text/javascript' >
+
+        $( document ).ready(function() {  // could use window listenevent onload to fire and init() if wanted
+
+            var swipeOptions = {
+                velocity: 0.1,
+                threshold: 50
+                // direction is default horizontal
+            }
+
+            var choices = document.querySelectorAll('.choice'); // is querySelectorAll quicker than $('.choice') ?
+            
+            for(var i=0; i< choices.length; i++) {
+                addTheTouch(choices[i]);
+            }
+
+            function addTheTouch(touchElement){
+                // panning accounts for moving the element with where the user is touching
+                var touchControl = new Hammer(touchElement);
+                touchControl.get('swipe').set(swipeOptions);
+                touchControl.on('swipe', function(event) {
+                    youAreLosingTouch(event);
+                    touchControl.off("swipe");
+                });
+            }
+
+            function youAreLosingTouch(event) {
+                //delete the element and the listeners if we can
+                var theElement =  event.target;
+                theElement.style.display = 'none';  // in case it doesn't get removed next
+                theElement.remove();
+                
+            }
+
+        });
+        </script>
+
+
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    </head>
+    <body>
+        <h1 id="title">Hammer JS Swipe Test</h1>
+        <div class='container'>
+            {% for x in range(0,2) %}
+                <img src="http://placehold.it/300x300" class='choice' />
+                <img src="http://www.placecage.com/c/300/300" class='choice' />
+                <img src="http://placehold.it/300x300" class='choice' />
+                <img src="http://www.nicenicejpg.com/300" class='choice' />
+            {% endfor %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,145 @@
+<head>
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+        #container {
+          width: 500px;
+          margin: auto !important;
+          display: block;
+          height: 500px;
+          position: relative;
+          list-style-type: none;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .buddy {
+          display: none;
+          background: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+          color: #fff;
+          padding: 20px;
+          width: 360px;
+          height: 360px;
+          top: 50px;
+          left: 50px;
+          position: absolute;
+          cursor: hand;
+        }
+        .rotate-left {
+          transform: rotate(30deg) scale(0.8);
+          transition: 1s;
+          margin-left: 400px;
+          cursor: e-resize;
+          opacity: 0;
+        }
+        .rotate-right {
+          transform: rotate(-30deg) scale(0.8);
+          transition: 1s;
+          opacity: 0;
+          margin-left: -400px;
+          cursor: w-resize;
+        }
+        .avatar {
+          background: #222;
+          width: 340px;
+          height: 340px;
+          display: block;
+          margin-top: 10px;
+          margin-left: 10px;
+          background-size: 100% auto !important;
+          background-position: center;
+         background-repeat: no-repeat;
+        }
+        .like {
+          border-radius: 5px;
+          padding: 5px 10px;
+          border: 2px solid green;
+          color: green;
+          text-transform: uppercase;
+          font-size: 15px;
+          position: absolute;
+          top: 50px;
+          right: 40px;
+          text-shadow: none;
+        }
+        .dislike {
+          border-radius: 5px;
+          padding: 5px 10px;
+          border: 2px solid red;
+          color: red;
+          text-transform: uppercase;
+          font-size: 15px;
+          position: absolute;
+          top: 50px;
+          left: 40px;
+          text-shadow: none;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <script type='text/javascript' src="http://code.jquery.com/jquery-2.1.1.min.js" ></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript">
+        
+        $(document).ready(function(){
+          
+          $.event.special.swipe.horizontalDistanceThreshold = 45; // have to overwrite the threshold as it is auto set to 30px or something silly 
+
+          $(".buddy").on("swiperight",function(e){
+            $(this).addClass('rotate-left').delay(700).fadeOut(1);
+            $('.buddy').find('.status').remove();
+
+            $(this).append('<div class="status like">Like!</div>');      
+            if ( $(this).is(':last-child') ) {
+              $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
+             } else {
+                $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
+             }
+          });  
+
+          $(".buddy").on("swipeleft",function(){
+            $(this).addClass('rotate-right').delay(700).fadeOut(1);
+            $('.buddy').find('.status').remove();
+            $(this).append('<div class="status dislike">Dislike!</div>');
+
+            if ( $(this).is(':last-child') ) {
+             $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
+              console.log('Loop through again!');
+             } else {
+                $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
+            } 
+          });
+
+        });
+
+    </script>
+</head>
+<body>
+    <h1 id="title">jQuery Mobile 1.4.5 with css transition TEST</h1>
+    <a href="http://codepen.io/developingidea/pen/meAIn" />Example taken from codepen demo here</a>
+    <br />
+    Basically using css transitions with classes added/removed within the callbacks from jquery mobile swipe gestures "swipeleft" and "swiperight". Can use 'swipe' instead of either and the you can use the event's swipestart and swipestop objects to define one way or the other. Getting current status of where the touch is currently not straightforward to me. Would have to add the drag feature or find this. To change the threshold have to change horizontalDistanceThreshold (http://stackoverflow.com/questions/16364636/swipe-effect-sensibility , really?)
+    <div id="container">
+        {% for x in range(0,2) %}       
+        <div class="buddy" style="display: block;">
+            <div class="avatar" style="display: block; background-image: url(http://www.placecage.com/c/300/300)"></div>
+        </div>
+        <div class="buddy">
+            <div class="avatar" style="display: block; background-image: url(http://www.nicenicejpg.com/300)"></div>
+        </div>
+        <div class="buddy">
+            <div class="avatar" style="display: block; background-image: url(http://placehold.it/300x300)"></div>
+        </div>
+        {% endfor %}
+        <div class="buddy">
+            <div class="avatar" style="display: block; background-image: url(https://ingridsnotes.files.wordpress.com/2012/09/the-end.jpg)"></div>
+        </div>
+    </div>
+</body>

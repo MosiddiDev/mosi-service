@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Janrain-Stub-Service-3000&trade;</title>
+		<style>
+			html {
+				font-family: monospace;
+				background: #333;
+				color: lime;
+			}
+			h1{
+				font-family: monospace;
+				font-size: 30px;
+			}
+			label {
+				margin-bottom: 5px;
+				display: inline-block;
+			}
+			.form-button-section {
+				border-top: 1px solid lime;
+				margin-top: 15px;
+				padding-top: 15px;
+			}
+			input,
+			textarea,
+			button {
+				font-family: monospace;
+				background: black;
+				color: lime;
+				border: 1px solid lime;
+			}
+			button {
+				padding: 10px 25px;
+			}
+			textarea {
+				width: 100%;
+				height: 25em;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Janrain-Stub-Service-3000&trade;</h1>
+		<form action="{{form_action}}" method="get">
+			<div>
+				<label for="token">JSON Response</label>
+			</div>
+			<div>
+				{%- for key, value in request_parameters.items() %}
+				<input type="hidden" name="{{key|string()}}" value="{{value.0}}">{%- endfor %}
+				<textarea name="token" id="token">{
+	"profile": {
+		"name": {
+			"givenName": "John",
+			"familyName": "Doe",
+			"formatted": "John Doe"
+		},
+		"verifiedEmail": "guptest.{{time}}@example.com",
+		"displayName": "John Doe",
+		"preferredUsername": "johndoe",
+		"url": "http://www.example.com/guptest_{{time}}",
+		"providerName": "{{social_provider_name}}",
+		"providerSpecifier": "{{social_provider}}",
+		"identifier": "http://www.example.com/guptest_{{time}}",
+		"email": "guptest.{{time}}@example.com"
+	},
+	"accessCredentials": {
+		"uid": "uid_{{social_provider}}"
+	}
+}</textarea>
+			</div>
+			<div class="form-button-section">
+				<button type="submit">Login</button>
+			</div>
+		</form>
+	</body>
+</html>
