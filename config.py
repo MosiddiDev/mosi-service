@@ -34,3 +34,13 @@ def test2_js():
 	}
 
 	return jsonify(response_object)
+
+@app.route("/config/test3", methods=['GET'])
+def test3_js():
+
+	return jsonify('{\n  "signin": [], \n  "stat": "ok"\n}')
+
+@app.route("/config/test4", methods=['GET'])
+def test4_js():
+
+	return '{\n  "signin": [], \n  "stat": "ok"\n}'
