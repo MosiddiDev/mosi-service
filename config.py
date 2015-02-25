@@ -6,22 +6,22 @@ import json
 import urllib2
 
 
-@app.route("/config/test.json", methods=['GET'])
-def test_js():
+@app.route("/config/test<path:ext>", methods=['GET'])
+def test_js(ext):
 	response_object = {
 		'stat': 'ok',
 		'test': []
 	}
 
 	# return jsonify(response_object)
-	return send_from_directory('configs/subscribe/stage', 'public.json', as_attachment=True)
+	return send_from_directory('configs', 'test.json', as_attachment=True) if '.json' in ext else open('configs/test.json').read()
 
 @app.route("/config/<path:application>/<path:environment>", methods=['GET'])
-def public_config(environment, application):
+def public_config(application, environment):
 
-	return send_from_directory('configs/{app}/{env}'.format(env=environment, app=application.split('.')[0]), 'public.json', as_attachment=True) if '.json' in application else open('configs/{app}/{env}/public.json'.format(env=environment, app=application)).read()
+	return send_from_directory('configs/{app}/{env}'.format(app=application, env=environment.split('.')[0]), 'public.json', as_attachment=True) if '.json' in environment else open('configs/{app}/{env}/public.json'.format(app=application, env=environment)).read()
 
 @app.route("/config/private/<path:application>/<path:environment>", methods=['GET'])
-def private_config(environment, application):
+def private_config(application, environment):
 
-	return send_from_directory('configs/{app}/{env}'.format(env=environment, app=application.split('.')[0]), 'private.json', as_attachment=True) if '.json' in application else open('configs/{app}/{env}/private.json'.format(env=environment, app=application)).read()
+	return send_from_directory('configs/{app}/{env}'.format(app=application, env=environment.split('.')[0]), 'private.json', as_attachment=True) if '.json' in environment else open('configs/{app}/{env}/private.json'.format(app=application, env=environment)).read()
