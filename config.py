@@ -16,11 +16,11 @@ import urllib2
 
 # 	return send_from_directory('configs/{app}/{env}'.format(app=application, env=environment.split('.')[0]), 'private.json', as_attachment=True) if '.json' in environment else open('configs/{app}/{env}/private.json'.format(app=application, env=environment)).read()
 
-@app.route("/<regex('[_a-Z]*'):application>-<regex('[_a-Z]*'):environment>-<regex('[_a-Z]*'):config>", methods=['GET'])
+@app.route("/testme/<regex('[a-Z]*'):application>-<regex('[a-Z]*'):environment>-<regex('[a-Z]*'):config>", methods=['GET'])
 def public_config(application, environment, config):
 
 	# return send_from_directory('configs/{app}/{env}'.format(app=application, env=environment.split('.')[0]), 'public.json', as_attachment=True) if '.json' in environment else open('configs/{app}/{env}/public.json'.format(app=application, env=environment)).read()
-	return '{app}, {env}, {con}'.format(app=application, env=environment, con=config)
+	return '{"application":"'+application+'", "environment":"'+environment+'", "config":"'+config+'"}'
 
 @app.route("/config/private/<path:application>/<path:environment>", methods=['GET'])
 def private_config(application, environment):
