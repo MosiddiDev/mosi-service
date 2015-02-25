@@ -52,4 +52,4 @@ def test4_js():
 		with open('configs/subscribe/public.json') as public_config:
 			return public_config
 	except:		
-		return '{\n  "default": [], \n  "it_was": "not_ok"\n}
+		return '{\n  "default": [], \n  "it_was": "not_ok"\n}'
