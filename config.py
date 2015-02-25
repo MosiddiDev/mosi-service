@@ -14,16 +14,14 @@ def test_js():
 	}
 
 	# return jsonify(response_object)
-	return send_from_directory('configs', 'test.json', as_attachment=True)
+	return send_from_directory('configs/subscribe/stage', 'public.json', as_attachment=True) if 
 
-@app.route("/config/public/<path:application>", methods=['GET'])
-def public_config(application):
+@app.route("/config/<path:environment>/<path:application>", methods=['GET'])
+def public_config(environment, application):
 
-	public_config = open('configs/{}/public.json'.format(application)).read()
-	return public_config
+	return send_from_directory('configs/{env}/{app}', 'public.json', as_attachment=True) if '.json' in application else open('configs/{env}/{app}/public.json'.format(env=environment, app=application)).read()
 
-@app.route("/config/private/<path:application>", methods=['GET'])
-def private_config(application):
+@app.route("/config/private/<path:environment>/<path:application>", methods=['GET'])
+def private_config(environment, application):
 
-	private_config = open('configs/{}/private.json'.format(application)).read()
-	return private_config
+	return send_from_directory('configs/{env}/{app}', 'private.json', as_attachment=True) if '.json' in application else open('configs/{env}/{app}/private.json'.format(env=environment, app=application)).read()
