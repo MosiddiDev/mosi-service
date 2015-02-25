@@ -1,4 +1,4 @@
-from flask import request, jsonify, Response, render_template
+from flask import request, jsonify, Response, render_template, send_from_directory
 from web import app
 import requests
 import time
@@ -13,16 +13,17 @@ def test_js():
 		'test': []
 	}
 
-	return jsonify(response_object)
+	# return jsonify(response_object)
+	return send_from_directory('configs', 'test.json', as_attachment=True)
 
-@app.route("/config/public", methods=['GET'])
-def public_config(app='subscribe'):
+@app.route("/config/public/<path:application>", methods=['GET'])
+def public_config(application):
 
-	public_config = open('configs/{}/public.json'.format(app)).read()
+	public_config = open('configs/{}/public.json'.format(application)).read()
 	return public_config
 
-@app.route("/config/private", methods=['GET'])
-def private_config(app='subscribe'):
+@app.route("/config/private/<path:application>", methods=['GET'])
+def private_config(application):
 
-	private_config = open('configs/{}/private.json'.format(app)).read()
+	private_config = open('configs/{}/private.json'.format(application)).read()
 	return private_config
