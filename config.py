@@ -6,7 +6,7 @@ import json
 import urllib2
 
 
-@app.route("/config/test", methods=['GET'])
+@app.route("/config/test.json", methods=['GET'])
 def test_js():
 	response_object = {
 		'stat': 'ok',
@@ -15,13 +15,13 @@ def test_js():
 
 	return jsonify(response_object)
 
-@app.route("/config/public.json", methods=['GET'])
+@app.route("/config/public", methods=['GET'])
 def public_config(app='subscribe'):
 
 	public_config = open('configs/{}/public.json'.format(app)).read()
 	return public_config
 
-@app.route("/config/private/.json", methods=['GET'])
+@app.route("/config/private", methods=['GET'])
 def private_config(app='subscribe'):
 
 	private_config = open('configs/{}/private.json'.format(app)).read()
