@@ -33,7 +33,4 @@ def test2_js():
 		'signin': []
 	}
 
-	for key, value in providers_map.items():
-		response_object['signin'].append(key)
-
 	return jsonify(response_object)
