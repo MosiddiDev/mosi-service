@@ -8,53 +8,21 @@ import urllib2
 
 @app.route("/config/test", methods=['GET'])
 def test_js():
-	return Response("""window.janrain.engage = {
-	'signin': {
-		'url': window.janrain.settings.appUrl+'/social-login',
-		'appendTokenParams': function(currentURLParameters){
-			var glue = (this.url.indexOf('?') !== -1)? '&' : '?';
-			for(key in currentURLParameters){
-				this.url += glue+key+'='+encodeURIComponent(currentURLParameters[key]);
-				glue = '&';
-			}
-		},
-		'triggerFlow': function(socialLoginType){
-			var glue = (this.url.indexOf('?') !== -1)? '&' : '?';
-			this.url += glue+'social-provider='+encodeURIComponent(socialLoginType)
-			location.href=this.url;
-		}
-	}
-};""", headers={'content-type': 'text/javascript'})
-
-
-@app.route("/config/test2", methods=['GET'])
-def test2_js():
 	response_object = {
 		'stat': 'ok',
-		'signin': []
+		'test': []
 	}
 
 	return jsonify(response_object)
 
-@app.route("/config/test3", methods=['GET'])
-def test3_js():
+@app.route("/config/public.json", methods=['GET'])
+def public_config(app='subscribe'):
 
-	return '{\n  "signin": [], \n  "stat": "ok"\n}'
+	public_config = open('configs/{}/public.json'.format(app)).read()
+	return public_config
 
-@app.route("/config/public", methods=['GET'])
-def test4_js():
+@app.route("/config/private/.json", methods=['GET'])
+def private_config(app='subscribe'):
 
-	try:
-		public_config = open('configs/subscribe/public.json').read()
-		return public_config
-	except:		
-		return '{\n  "default": "public", \n  "it_was": "not_ok"\n}'
-
-@app.route("/config/private", methods=['GET'])
-def test5_js():
-
-	try:
-		private_config = open('configs/subscribe/private.json').read()
-		return private_config
-	except:		
-		return '{\n  "default": "private", \n  "it_was": "not_ok"\n}'
+	private_config = open('configs/{}/private.json'.format(app)).read()
+	return private_config
