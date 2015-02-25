@@ -3,13 +3,6 @@ from flask import Flask
 
 app = Flask(__name__)
 
-class RegexConverter(BaseConverter):
-        def __init__(self, url_map, *items):
-                super(RegexConverter, self).__init__(url_map)
-                self.regex = items[0]
-
-app.url_map.converters['regex'] = RegexConverter
-
 from iconPCI import *
 from akamaiContent import *
 from janrain import *
