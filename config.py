@@ -3,6 +3,7 @@ from web import app
 import requests
 import time
 import json
+import urllib2
 
 
 @app.route("/config/test", methods=['GET'])
@@ -38,9 +39,17 @@ def test2_js():
 @app.route("/config/test3", methods=['GET'])
 def test3_js():
 
-	return jsonify('{\n  "signin": [], \n  "stat": "ok"\n}')
+
+	return '{\n  "signin": [], \n  "stat": "ok"\n}'
 
 @app.route("/config/test4", methods=['GET'])
 def test4_js():
+	
+	# try:
+	# 	return urllib2.urlopen(config_location).read()
 
-	return '{\n  "signin": [], \n  "stat": "ok"\n}'
+	try:
+		with open('configs/subscribe/public.json') as public_config:
+			return public_config
+	except:		
+		return '{\n  "default": [], \n  "it_was": "not_ok"\n}
