@@ -39,17 +39,22 @@ def test2_js():
 @app.route("/config/test3", methods=['GET'])
 def test3_js():
 
-
 	return '{\n  "signin": [], \n  "stat": "ok"\n}'
 
-@app.route("/config/test4", methods=['GET'])
+@app.route("/config/public", methods=['GET'])
 def test4_js():
-	
-	# try:
-	# 	return urllib2.urlopen(config_location).read()
 
 	try:
-		with open('configs/subscribe/public.json') as public_config:
-			return public_config
+		public_config = open('configs/subscribe/public.json').read()
+		return public_config
 	except:		
-		return '{\n  "default": [], \n  "it_was": "not_ok"\n}'
+		return '{\n  "default": "public", \n  "it_was": "not_ok"\n}'
+
+@app.route("/config/private", methods=['GET'])
+def test5_js():
+
+	try:
+		private_config = open('configs/subscribe/private.json').read()
+		return private_config
+	except:		
+		return '{\n  "default": "private", \n  "it_was": "not_ok"\n}'
