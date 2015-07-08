@@ -1,14 +1,11 @@
 import os
 from flask import Flask
+from flask.ext.cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 
-from iconPCI import *
-from akamaiContent import *
-from janrain import *
-from gupuiStub import *
-from gusDemo import *
-from config import *
+from studentService import *
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
